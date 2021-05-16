@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.API", "src\Mine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.Domain", "src\MineSweeper.Domain\MineSweeper.Domain.csproj", "{5215F8F2-BDC5-47F0-A90D-85B602AC7554}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Infra", "MineSweeper.Infra\MineSweeper.Infra.csproj", "{165A7255-EB64-4B2A-BA4F-5D4A50EB22F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Infra", "src\MineSweeper.Infra\MineSweeper.Infra.csproj", "{165A7255-EB64-4B2A-BA4F-5D4A50EB22F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Application", "MineSweeper.Application\MineSweeper.Application.csproj", "{E3997CC3-8A9E-4822-B053-9F2318A03C2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Application", "src\MineSweeper.Application\MineSweeper.Application.csproj", "{E3997CC3-8A9E-4822-B053-9F2318A03C2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
