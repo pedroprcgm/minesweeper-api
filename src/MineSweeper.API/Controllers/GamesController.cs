@@ -10,11 +10,11 @@ namespace MineSweeper.Services.Host.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class GameController : ControllerBase
+    public class GamesController : ControllerBase
     {
-        private readonly ILogger<GameController> _logger;
+        private readonly ILogger<GamesController> _logger;
 
-        public GameController(ILogger<GameController> logger)
+        public GamesController(ILogger<GamesController> logger)
         {
             _logger = logger;
         }
