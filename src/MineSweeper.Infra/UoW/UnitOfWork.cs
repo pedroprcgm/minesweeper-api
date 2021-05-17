@@ -5,9 +5,9 @@ namespace MineSweeper.Infra.UoW
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IGameContext _context;
+        private readonly IMineSweeperContext _context;
 
-        public UnitOfWork(IGameContext context)
+        public UnitOfWork(IMineSweeperContext context)
         {
             _context = context;
         }

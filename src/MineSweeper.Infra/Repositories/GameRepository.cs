@@ -7,7 +7,7 @@ namespace MineSweeper.Infra.Repositories
 {
     public class GameRepository : Repository<Game>, IGameRepository
     {
-        public GameRepository(IGameContext context) : base(context)
+        public GameRepository(IMineSweeperContext context) : base(context)
         {
         }
     }

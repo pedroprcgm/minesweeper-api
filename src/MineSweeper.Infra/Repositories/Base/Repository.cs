@@ -10,10 +10,10 @@ namespace MineSweeper.Infra.Repositories.Base
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {
-        protected readonly IGameContext _context;
+        protected readonly IMineSweeperContext _context;
         protected readonly IMongoCollection<T> DbSet;
 
-        protected Repository(IGameContext context)
+        protected Repository(IMineSweeperContext context)
         {
             _context = context;
 

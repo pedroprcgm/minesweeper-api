@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MineSweeper.Infra.Context
 {
-    public class MineSweeperContext : IGameContext
+    public class MineSweeperContext : IMineSweeperContext
     {
         private List<Func<Task>> _commands;
         private readonly DatabaseConnectionSettings _databaseConnectionSettings;
