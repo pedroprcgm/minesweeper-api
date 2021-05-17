@@ -1,4 +1,5 @@
 ﻿using MineSweeper.Domain.Enums;
+using System;
 
 namespace MineSweeper.Domain.Entities
 {
@@ -19,21 +20,26 @@ namespace MineSweeper.Domain.Entities
             BuildKey();
         }
 
-        public string Key { get; set; }
+        public string Key { get; private set; }
 
-        public bool IsVisited { get; set; }
+        public bool IsVisited { get; private set; }
 
-        public int Row { get; set; }
+        public int Row { get; private set; }
 
-        public int Col { get; set; }
+        public int Col { get; private set; }
 
-        public bool HasMine { get; set; }
+        public bool HasMine { get; private set; }
 
-        public CellFlagEnum Flag { get; set; }
+        public CellFlagEnum Flag { get; private set; }
 
         public void BuildKey()
         {
             Key = $"{ Row }-{ Col }";
+        }
+
+        public void SetVisited()
+        {
+            IsVisited = true;
         }
     }
 }

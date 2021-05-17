@@ -1,7 +1,8 @@
-using MineSweeper.Domain.Entities.Base;
+﻿using MineSweeper.Domain.Entities.Base;
 using MineSweeper.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MineSweeper.Domain.Entities
 {
@@ -67,6 +68,9 @@ namespace MineSweeper.Domain.Entities
                 }
             }
         }
+
+        public Cell GetCell(int row, int col)
+            => Cells.Where(wh => wh.Row == row && wh.Col == col).FirstOrDefault();
 
         /**
          * TODO: Add FluentValidation
