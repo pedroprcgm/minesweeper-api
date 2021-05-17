@@ -11,6 +11,16 @@ namespace MineSweeper.Domain.Entities
             Cells = new List<Cell>();
         }
 
+        public Game(string name, int rows, int cols, int mines)
+        {
+            Name = name;
+            Rows = rows;
+            Cols = cols;
+            Mines = mines;
+
+            BuildCells();
+        }
+
         public string Name { get; set; }
 
         public GameStatusEnum Status { get; set; }
@@ -19,6 +29,13 @@ namespace MineSweeper.Domain.Entities
 
         public int Cols { get; set; }
 
+        public int Mines { get; set; }
+
         public ICollection<Cell> Cells { get; set; }
+
+        public void BuildCells()
+        {
+
+        }
     }
 }

@@ -4,5 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MineSweeper.Application\MineSweeper.Application.csproj" />
+    <ProjectReference Include="..\MineSweeper.Infra\MineSweeper.Infra.csproj" />
+  </ItemGroup>
+
 
 </Project>
