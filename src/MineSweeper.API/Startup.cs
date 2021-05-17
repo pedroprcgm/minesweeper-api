@@ -10,6 +10,7 @@ using MineSweeper.Domain.Interfaces.Context;
 using MineSweeper.Domain.Interfaces.Repositories;
 using MineSweeper.Infra.Context;
 using MineSweeper.Infra.Repositories;
+using MineSweeper.Infra.Settings;
 using MineSweeper.Infra.UoW;
 using System;
 
@@ -85,6 +86,9 @@ namespace MineSweeper.API
         {
             services.AddScoped<IMineSweeperContext, MineSweeperContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // Settings
+            services.Configure<DatabaseConnectionSettings>(Configuration.GetSection(nameof(DatabaseConnectionSettings)));
 
             // Repositories
             services.AddScoped<IGameRepository, GameRepository>();
