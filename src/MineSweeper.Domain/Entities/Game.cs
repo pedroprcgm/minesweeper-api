@@ -1,4 +1,4 @@
-﻿using MineSweeper.Domain.Entities.Base;
+using MineSweeper.Domain.Entities.Base;
 using MineSweeper.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -66,6 +66,20 @@ namespace MineSweeper.Domain.Entities
                     Cells.Add(new Cell(x, y, hasMine));
                 }
             }
+        }
+
+        /**
+         * TODO: Add FluentValidation
+         */
+        public bool IsValid()
+        {
+            if (Rows < 1 || Cols < 1 || Mines < 1)
+                return false;
+
+            if (string.IsNullOrEmpty(Name))
+                return false;
+
+            return true;
         }
 
         private int GenerateCellForMine(Dictionary<int, int> mineCells)
