@@ -61,10 +61,14 @@ namespace MineSweeper.Domain.Entities
             {
                 for (int y = 0; y < Cols; y++)
                 {
-                    int cellNumber = (x * (Cols-1)) + y;
+                    int cellNumber = CalculateCellNumber(x, y);
                     bool hasMine = mineCells.ContainsKey(cellNumber);
+                    int? numberOfMinesOnSquare = null;
 
-                    Cells.Add(new Cell(x, y, hasMine));
+                    if (!hasMine)
+                        numberOfMinesOnSquare = GetNumberOfMinesOnSquare(x, y, mineCells);
+
+                    Cells.Add(new Cell(x, y, hasMine, numberOfMinesOnSquare));
                 }
             }
         }
@@ -86,6 +90,28 @@ namespace MineSweeper.Domain.Entities
             return true;
         }
 
+        private int GetNumberOfMinesOnSquare(int row, int col, Dictionary<int, int> mines)
+        {
+            int numberOfMines = 0;
+
+            for (int x = row - 1; x < row + 2; x++)
+            {
+                if (x < 0 || x >= Rows)
+                    continue;
+
+                for (int y = col - 1; y < col + 2; y++)
+                {
+                    if ((x == row && y == col) || y < 0 || y >= Cols)
+                        continue;
+
+                    if (mines.ContainsKey(CalculateCellNumber(x, y)))
+                        numberOfMines++;
+                }
+            }
+
+            return numberOfMines;
+        }
+
         private int GenerateCellForMine(Dictionary<int, int> mineCells)
         {
             Random random = new Random();
@@ -95,6 +121,11 @@ namespace MineSweeper.Domain.Entities
                 mineCell = random.Next(0, Mines);
 
             return mineCell;
+        }
+
+        private int CalculateCellNumber(int x, int y)
+        {
+            return (x * Cols) + y;
         }
     }
 }

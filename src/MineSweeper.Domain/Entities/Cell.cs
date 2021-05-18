@@ -11,11 +11,12 @@ namespace MineSweeper.Domain.Entities
             Flag = CellFlagEnum.None;
         }
 
-        public Cell(int row, int col, bool hasMine) : this()
+        public Cell(int row, int col, bool hasMine, int? numberOfMinesOnSquare) : this()
         {
             Row = row;
             Col = col;
             HasMine = hasMine;
+            NumberOfMinesOnSquare = hasMine ? null : numberOfMinesOnSquare;
 
             BuildKey();
         }
@@ -29,6 +30,8 @@ namespace MineSweeper.Domain.Entities
         public int Col { get; private set; }
 
         public bool HasMine { get; private set; }
+
+        public int? NumberOfMinesOnSquare { get; set; }
 
         public CellFlagEnum Flag { get; private set; }
 
