@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace MineSweeper.Services.Host.Controllers
 {
@@ -63,9 +61,9 @@ namespace MineSweeper.Services.Host.Controllers
         {
             try
             {
-                await _service.VisitCell(id, row, col);
+                var _result = await _service.VisitCell(id, row, col);
 
-                return Ok();
+                return Ok(_result);
             }
             catch (Exception e)
             {

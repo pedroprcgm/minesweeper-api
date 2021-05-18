@@ -8,6 +8,6 @@ namespace MineSweeper.Application.Interfaces
     {
         Task<bool> CreateGame(GameViewModel game);
 
-        Task<bool> VisitCell(Guid id, int row, int col);
+        Task<VisitCellResultViewModel> VisitCell(Guid id, int row, int col);
     }
 }

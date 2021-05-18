@@ -6,4 +6,10 @@
         Paused = 1,
         Done = 2,
     }
+
+    public enum GameResultEnum
+    {
+        UserWon = 0,
+        UserLost = 1
+    }
 }

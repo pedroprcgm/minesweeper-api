@@ -27,6 +27,8 @@ namespace MineSweeper.Domain.Entities
 
         public GameStatusEnum Status { get; set; }
 
+        public GameResultEnum? Result { get; set; }
+
         public int Rows { get; set; }
 
         public int Cols { get; set; }
@@ -71,6 +73,52 @@ namespace MineSweeper.Domain.Entities
                     Cells.Add(new Cell(x, y, hasMine, numberOfMinesOnSquare));
                 }
             }
+        }
+
+        public IEnumerable<Cell> GetMines()
+        {
+            return Cells.Where(wh => wh.HasMine);
+        }
+
+        public void SetDone(bool isWinner)
+        {
+            Status = GameStatusEnum.Done;
+            Result = isWinner 
+                   ? GameResultEnum.UserWon 
+                   : GameResultEnum.UserLost;
+        }
+
+        public IEnumerable<Cell> ExploreForCellsFromCell(Cell cell)
+        {
+            IEnumerable<Cell> exploredCells = new List<Cell>();
+
+            for (int x = cell.Row - 1; x < cell.Row + 2; x++)
+            {
+                if (x < 0 || x >= Rows)
+                    continue;
+
+                for (int y = cell.Col - 1; y < cell.Col + 2; y++)
+                {
+                    if ((x == cell.Row && y == cell.Col) || y < 0 || y >= Cols)
+                        continue;
+
+                    var currentCell = GetCell(x, y);
+
+                    exploredCells = exploredCells.Append(currentCell);
+
+                    if (currentCell.NumberOfMinesOnSquare == 0)
+                        exploredCells = exploredCells.Union(ExploreForCellsFromCell(currentCell));
+                }
+            }
+
+            return exploredCells;
+        }
+
+        public bool IsOver()
+        {
+            IEnumerable<Cell> cells = Cells.Where(wh => !wh.HasMine);
+
+            return cells.All(wh => wh.IsVisited);
         }
 
         public Cell GetCell(int row, int col)
