@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-minesweeper-api-client",
+  "version": "1.0.0",
+  "description": "NodeJS package to use MineSweeper API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedroprcgm/minesweerper-api.git"
+  },
+  "keywords": [
+    "nodejs",
+    "minesweeperapi"
+  ],
+  "author": "Pedro Guerreiro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pedroprcgm/minesweerper-api/issues"
+  },
+  "homepage": "https://github.com/pedroprcgm/minesweerper-api#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
