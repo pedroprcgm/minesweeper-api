@@ -1,4 +1,4 @@
-const game = require('./src/app/game');
+const game = require("./src/app/game");
 
 exports.createGame = game.create;
 
