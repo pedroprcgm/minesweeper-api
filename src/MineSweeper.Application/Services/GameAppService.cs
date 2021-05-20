@@ -37,11 +37,48 @@ namespace MineSweeper.Application.Services
             return _game.Id;
         }
 
+        public async Task<bool> PauseGame(Guid id)
+        {
+            Game game = await _repository.GetById(id);
+
+            if (game == null)
+                throw new ArgumentException("Informed game doesn't exists!");
+
+            game.Pause();
+
+            _repository.Update(game);
+
+            if (!await _uow.Commit())
+                throw new Exception("Error to commit changes");
+
+            return true;
+        }
+
+        public async Task<bool> ResumeGame(Guid id)
+        {
+            Game game = await _repository.GetById(id);
+
+            if (game == null)
+                throw new ArgumentException("Informed game doesn't exists!");
+
+            game.Resume();
+
+            _repository.Update(game);
+
+            if (!await _uow.Commit())
+                throw new Exception("Error to commit changes");
+
+            return true;
+        }
+
         public async Task<VisitCellResultViewModel> VisitCell(Guid id, int row, int col)
         {
             var visitCellResult = new VisitCellResultViewModel();
 
             Game game = await _repository.GetById(id);
+
+            if (game == null)
+                throw new ArgumentException("Informed game doesn't exists!");
 
             if (!game.ExistsCell(row, col))
                 throw new ArgumentException("Informed cell doesn't exists!");

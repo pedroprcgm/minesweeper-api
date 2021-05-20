@@ -48,6 +48,57 @@ namespace MineSweeper.Services.Host.Controllers
         }
 
         /// <summary>
+        /// Pause a game
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A bool indicating if the action was applied</returns>
+        [HttpPut("{id}/pause")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> PauseGame(Guid id)
+        {
+            try
+            {
+                bool _result = await _service.PauseGame(id);
+
+                return Ok(_result);
+            }
+            catch (Exception e)
+            {
+                if (e is ArgumentException)
+                    return BadRequest();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Resume a game
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A bool indicating if the action was applied</returns>
+        [HttpPut("{id}/resume")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ResumeGame(Guid id)
+        {
+            try
+            {
+                bool _result = await _service.ResumeGame(id);
+
+                return Ok(_result);
+            }
+            catch (Exception e)
+            {
+                if (e is ArgumentException)
+                    return BadRequest();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+
+        /// <summary>
         /// Endpoint to visit a cell informating game id, number of row and col
         /// </summary>
         /// <param name="id"></param>
@@ -80,7 +131,7 @@ namespace MineSweeper.Services.Host.Controllers
         /// <param name="id"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        /// <returns>The result of the action to visit a cell</returns>
+        /// <returns>A bool indicating if the action was applied</returns>
         [HttpPut("{id}/rows/{row}/cols/{col}/flag")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

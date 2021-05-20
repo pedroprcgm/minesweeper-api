@@ -75,6 +75,16 @@ namespace MineSweeper.Domain.Entities
             }
         }
 
+        public void Pause()
+        {
+            Status = GameStatusEnum.Paused;
+        }
+
+        public void Resume()
+        {
+            Status = GameStatusEnum.InProgress;
+        }
+
         public bool ExistsCell(int row, int col)
             => Cells.Any(wh => wh.Row == row && wh.Col == col);
 
