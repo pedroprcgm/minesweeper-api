@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
@@ -54,7 +54,7 @@ namespace MineSweeper.Services.Host.Controllers
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns>The result of the action to visit a cell</returns>
-        [HttpPut("{id}/visit-cell/rows/{row}/cols/{col}")]
+        [HttpPut("{id}/rows/{row}/cols/{col}/visit-cell")]
         [ProducesResponseType(typeof(VisitCellResultViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> VisitCell(Guid id, int row, int col)
