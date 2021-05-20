@@ -75,16 +75,17 @@ namespace MineSweeper.Domain.Entities
             }
         }
 
+        public bool ExistsCell(int row, int col)
+            => Cells.Any(wh => wh.Row == row && wh.Col == col);
+
         public IEnumerable<Cell> GetMines()
-        {
-            return Cells.Where(wh => wh.HasMine);
-        }
+            => Cells.Where(wh => wh.HasMine);
 
         public void SetDone(bool isWinner)
         {
             Status = GameStatusEnum.Done;
-            Result = isWinner 
-                   ? GameResultEnum.UserWon 
+            Result = isWinner
+                   ? GameResultEnum.UserWon
                    : GameResultEnum.UserLost;
         }
 
@@ -174,8 +175,6 @@ namespace MineSweeper.Domain.Entities
         }
 
         private int CalculateCellNumber(int x, int y)
-        {
-            return (x * Cols) + y;
-        }
+            => (x * Cols) + y;
     }
 }

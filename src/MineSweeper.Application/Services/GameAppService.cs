@@ -42,6 +42,9 @@ namespace MineSweeper.Application.Services
 
             Game game = await _repository.GetById(id);
 
+            if (!game.ExistsCell(row, col))
+                throw new ArgumentException();
+
             Cell cell = game.GetCell(row, col);
 
             cell.SetVisited();
