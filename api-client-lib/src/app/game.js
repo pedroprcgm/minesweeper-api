@@ -4,10 +4,10 @@ const game = {};
 /**
  * Create a game with name, number of rows, cols and mines
  * @param {string} name
- * @param {int} rows
- * @param {int} cols
- * @param {int} mines
- * @returns A promise with the data returned from MineSweeperAPI
+ * @param {number} rows
+ * @param {number} cols
+ * @param {number} mines
+ * @returns {promise} Game id
  */
 game.create = (name, rows, cols, mines) => {
 	return httpClient
@@ -21,16 +21,65 @@ game.create = (name, rows, cols, mines) => {
 			return response.data;
 		})
 		.catch((err) => {
-			console.log(err);
+			handleError(err);
 		});
 };
+
+/**
+ * Get game by id
+ * @param {string} gameId
+ * @returns {promise} Game details
+ */
+game.getById = (gameId) => {
+	return httpClient
+		.get(`Games/${gameId}`)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			handleError(err);
+		});
+};
+
+/**
+ * Pause a game
+ * @param {string} gameId
+ * @returns {promise} Bool indicating success
+ */
+game.pause = (gameId) => {
+	return httpClient
+		.put(`Games/${gameId}/pause`)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			handleError(err);
+		});
+};
+
+/**
+ * Resume a game
+ * @param {string} gameId
+ * @returns {promise} Bool indicating success
+ */
+game.resume = (gameId) => {
+	return httpClient
+		.put(`Games/${gameId}/resume`)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			handleError(err);
+		});
+};
+
 
 /**
  * Visit a cell
  * @param {string} gameId
  * @param {int} row
  * @param {int} col
- * @returns A promise with the result of visiting a cell
+ * @returns {Promise} Result of visiting a cell
  */
 game.visitCell = (gameId, row, col) => {
 	return httpClient
@@ -39,13 +88,17 @@ game.visitCell = (gameId, row, col) => {
 			return response.data;
 		})
 		.catch((err) => {
-			let error;
-			if (err && err.response && err.response.data)
-				error = err.response.data.title;
-			else error = "Unexpected error";
-
-			throw new Error(error);
+			handleError(err);
 		});
 };
+
+let handleError = (err) => {
+    let error;
+    if (err && err.response && err.response.data)
+        error = err.response.data.title;
+    else error = "Unexpected error";
+
+    throw new Error(error);    
+}
 
 module.exports = game;
