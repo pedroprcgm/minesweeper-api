@@ -6,7 +6,7 @@ namespace MineSweeper.Application.Interfaces
 {
     public interface IGameAppService
     {
-        Task<bool> CreateGame(GameViewModel game);
+        Task<Guid> CreateGame(GameViewModel game);
 
         Task<VisitCellResultViewModel> VisitCell(Guid id, int row, int col);
     }

@@ -22,7 +22,7 @@ namespace MineSweeper.Application.Services
             _repository = repository;
         }
 
-        public async Task<bool> CreateGame(GameViewModel game)
+        public async Task<Guid> CreateGame(GameViewModel game)
         {
             var _game = new Game(game.Name, game.Rows, game.Cols, game.Mines);
 
@@ -33,7 +33,7 @@ namespace MineSweeper.Application.Services
 
             await _uow.Commit();
 
-            return true;
+            return _game.Id;
         }
 
         public async Task<VisitCellResultViewModel> VisitCell(Guid id, int row, int col)

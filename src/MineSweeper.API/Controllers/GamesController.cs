@@ -26,17 +26,17 @@ namespace MineSweeper.Services.Host.Controllers
         /// Create a game customizing number of rows, cols and mines
         /// </summary>
         /// <param name="game"></param>
-        /// <returns></returns>
+        /// <returns>Created game id</returns>
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateGame([FromBody]GameViewModel game)
         {
             try
             {
-                await _service.CreateGame(game);
+                Guid _gameId = await _service.CreateGame(game);
 
-                return Ok();
+                return Ok(_gameId);
             }
             catch (Exception e)
             {
@@ -53,15 +53,15 @@ namespace MineSweeper.Services.Host.Controllers
         /// <param name="id"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        /// <returns></returns>
-        [HttpPut("{id}/visit-cell/row/{row}/col/{col}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        /// <returns>The result of the action to visit a cell</returns>
+        [HttpPut("{id}/visit-cell/rows/{row}/cols/{col}")]
+        [ProducesResponseType(typeof(VisitCellResultViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> VisitCell(Guid id, int row, int col)
         {
             try
             {
-                var _result = await _service.VisitCell(id, row, col);
+                VisitCellResultViewModel _result = await _service.VisitCell(id, row, col);
 
                 return Ok(_result);
             }
