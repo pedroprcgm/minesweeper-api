@@ -12,4 +12,8 @@ httpClient.put = (url, data) => {
 	return axios.put(baseUrl + "/" + url, data);
 };
 
+httpClient.get = (url) => {
+	return axios.get(baseUrl + "/" + url);
+};
+
 module.exports = httpClient;
