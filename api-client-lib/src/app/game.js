@@ -34,8 +34,8 @@ game.create = (name, rows, cols, mines) => {
  */
 game.visitCell = (gameId, row, col) => {
 	return httpClient
-		.put(`Games/${gameId}/visit-cell/rows/${row}/cols/${col}`, {})
-		.then((response) => {
+		.put(`Games/${gameId}/rows/${row}/cols/${col}/visit-cell`, {})
+		.then((response) => {s
 			return response.data;
 		})
 		.catch((err) => {
