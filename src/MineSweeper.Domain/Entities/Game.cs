@@ -103,11 +103,13 @@ namespace MineSweeper.Domain.Entities
                         continue;
 
                     var currentCell = GetCell(x, y);
-
                     exploredCells = exploredCells.Append(currentCell);
 
-                    if (currentCell.NumberOfMinesOnSquare == 0)
+                    if (currentCell.NumberOfMinesOnSquare == 0 && !currentCell.IsVisited)
+                    {
+                        currentCell.SetVisited();
                         exploredCells = exploredCells.Union(ExploreForCellsFromCell(currentCell));
+                    }
                 }
             }
 
