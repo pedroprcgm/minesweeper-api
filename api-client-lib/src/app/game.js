@@ -73,18 +73,18 @@ game.resume = (gameId) => {
 		});
 };
 
-
 /**
  * Visit a cell
  * @param {string} gameId
- * @param {int} row
- * @param {int} col
+ * @param {number} row
+ * @param {number} col
  * @returns {Promise} Result of visiting a cell
  */
 game.visitCell = (gameId, row, col) => {
 	return httpClient
 		.put(`Games/${gameId}/rows/${row}/cols/${col}/visit-cell`, {})
-		.then((response) => {s
+		.then((response) => {
+			s;
 			return response.data;
 		})
 		.catch((err) => {
@@ -92,13 +92,34 @@ game.visitCell = (gameId, row, col) => {
 		});
 };
 
-let handleError = (err) => {
-    let error;
-    if (err && err.response && err.response.data)
-        error = err.response.data.title;
-    else error = "Unexpected error";
+/**
+ * Flag a cell
+ * @param {string} gameId
+ * @param {number} row
+ * @param {number} col
+ * @returns {Promise} Result of flag a cell
+ */
+game.flagCell = (gameId, row, col, flag) => {
+	return httpClient
+		.put(`Games/${gameId}/rows/${row}/cols/${col}/flag`, {
+			flag: flag * 1,
+		})
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			console.log(err);
+			handleError(err);
+		});
+};
 
-    throw new Error(error);    
-}
+let handleError = (err) => {
+	let error;
+	if (err && err.response && err.response.data)
+		error = err.response.data.title;
+	else error = "Unexpected error";
+
+	throw new Error(error);
+};
 
 module.exports = game;

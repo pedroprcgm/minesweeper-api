@@ -9,3 +9,5 @@ exports.pause = game.pause;
 exports.resume = game.resume;
 
 exports.visitCell = game.visitCell;
+
+exports.flagCell = game.flagCell;
