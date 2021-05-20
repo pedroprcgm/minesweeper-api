@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
@@ -62,6 +62,33 @@ namespace MineSweeper.Services.Host.Controllers
             try
             {
                 VisitCellResultViewModel _result = await _service.VisitCell(id, row, col);
+
+                return Ok(_result);
+            }
+            catch (Exception e)
+            {
+                if (e is ArgumentException)
+                    return BadRequest();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Endpoint to flag a cell with question mark or red flag
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns>The result of the action to visit a cell</returns>
+        [HttpPut("{id}/rows/{row}/cols/{col}/flag")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> FlagCell(Guid id, int row, int col, FlagCellViewModel flag)
+        {
+            try
+            {
+                bool _result = await _service.FlagCell(id, row, col, flag);
 
                 return Ok(_result);
             }

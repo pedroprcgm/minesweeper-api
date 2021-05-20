@@ -1,6 +1,7 @@
 ﻿using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
 using MineSweeper.Domain.Entities;
+using MineSweeper.Domain.Enums;
 using MineSweeper.Domain.Interfaces.Context;
 using MineSweeper.Domain.Interfaces.Repositories;
 using System;
@@ -43,7 +44,7 @@ namespace MineSweeper.Application.Services
             Game game = await _repository.GetById(id);
 
             if (!game.ExistsCell(row, col))
-                throw new ArgumentException();
+                throw new ArgumentException("Informed cell doesn't exists!");
 
             Cell cell = game.GetCell(row, col);
 
@@ -104,9 +105,34 @@ namespace MineSweeper.Application.Services
 
             _repository.Update(game);
 
-            await _uow.Commit();
+            if (!await _uow.Commit())
+                throw new Exception("Error to commit changes");
 
             return visitCellResult;
+        }
+
+        public async Task<bool> FlagCell(Guid id, int row, int col, FlagCellViewModel flagCell)
+        {
+            Game game = await _repository.GetById(id);
+
+            if (!game.ExistsCell(row, col))
+                throw new ArgumentException();
+
+            if (!Enum.IsDefined(typeof(CellFlagEnum), flagCell.Flag))
+                throw new ArgumentException("Invalid flag!", nameof(flagCell.Flag));
+
+            Cell cell = game.GetCell(row, col);
+
+            var flag = (CellFlagEnum)flagCell.Flag;
+
+            cell.SetFlag(flag);
+
+            _repository.Update(game);
+
+            if (!await _uow.Commit())
+                throw new Exception("Error to commit changes");
+
+            return true;
         }
     }
 }

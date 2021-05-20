@@ -44,5 +44,10 @@ namespace MineSweeper.Domain.Entities
         {
             IsVisited = true;
         }
+
+        public void SetFlag(CellFlagEnum flag)
+        {
+            Flag = flag;
+        }
     }
 }
