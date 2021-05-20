@@ -11,6 +11,7 @@ namespace MineSweeper.Domain.Entities
         public Game()
         {
             Cells = new List<Cell>();
+            LastStartDateTime = DateTime.UtcNow;
         }
 
         public Game(string name, int rows, int cols, int mines) : this()
@@ -35,6 +36,21 @@ namespace MineSweeper.Domain.Entities
 
         public int Mines { get; set; }
 
+        public long TotalTimePlayed { get; set; }
+
+        public DateTime LastStartDateTime { get; set; }
+
+        internal long CurrentSession
+        {
+            get
+            {
+                if (Status != GameStatusEnum.InProgress)
+                    return 0;
+
+                return (long)(DateTime.UtcNow - LastStartDateTime).TotalSeconds;
+            }
+        }
+
         internal int NumberOfCells
         {
             get
@@ -42,6 +58,9 @@ namespace MineSweeper.Domain.Entities
                 return Rows * Cols;
             }
         }
+
+        public long GetCurrentTotalTimePlayed()
+            => TotalTimePlayed + CurrentSession;
 
         public ICollection<Cell> Cells { get; set; }
 
@@ -77,12 +96,14 @@ namespace MineSweeper.Domain.Entities
 
         public void Pause()
         {
+            TotalTimePlayed += CurrentSession;
             Status = GameStatusEnum.Paused;
         }
 
         public void Resume()
         {
             Status = GameStatusEnum.InProgress;
+            LastStartDateTime = DateTime.UtcNow;
         }
 
         public bool ExistsCell(int row, int col)

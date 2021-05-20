@@ -37,6 +37,16 @@ namespace MineSweeper.Application.Services
             return _game.Id;
         }
 
+        public async Task<GameDetailViewModel> GetById(Guid id)
+        {
+            Game game = await _repository.GetById(id);
+
+            if (game == null)
+                throw new ArgumentException("Informed game doesn't exists!");
+
+            return new GameDetailViewModel(game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString());
+        }
+
         public async Task<bool> PauseGame(Guid id)
         {
             Game game = await _repository.GetById(id);

@@ -7,7 +7,7 @@ namespace MineSweeper.Domain.Entities.Base
         public Entity()
         {
             Id = Guid.NewGuid();
-            CreatedDate = DateTime.Now;
+            CreatedDate = DateTime.UtcNow;
         }
 
         public Guid Id { get; set; }
