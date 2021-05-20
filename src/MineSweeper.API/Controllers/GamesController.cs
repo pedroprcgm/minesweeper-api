@@ -48,6 +48,31 @@ namespace MineSweeper.Services.Host.Controllers
         }
 
         /// <summary>
+        /// Get game information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Game details</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(GameDetailViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetGame(Guid id)
+        {
+            try
+            {
+                GameDetailViewModel game = await _service.GetById(id);
+
+                return Ok(game);
+            }
+            catch (Exception e)
+            {
+                if (e is ArgumentException)
+                    return BadRequest();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        /// <summary>
         /// Pause a game
         /// </summary>
         /// <param name="id"></param>
