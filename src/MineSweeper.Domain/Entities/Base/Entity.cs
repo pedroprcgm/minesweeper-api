@@ -2,7 +2,7 @@
 
 namespace MineSweeper.Domain.Entities.Base
 {
-    public class Entity
+    public class Entity : IEntity
     {
         public Entity()
         {
