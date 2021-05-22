@@ -47,5 +47,30 @@ namespace MineSweeper.Services.Host.Controllers
             }
         }
 
+        /// <summary>
+        /// Login user with email and password
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>The bearer token for user authorization</returns>
+        [HttpPost("login")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Login([FromBody]UserViewModel user)
+        {
+            try
+            {
+                string token = await _service.Login(user);
+
+                return Ok(token);
+            }
+            catch (Exception e)
+            {
+                if (e is ArgumentException)
+                    return BadRequest();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
     }
 }

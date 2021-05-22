@@ -1,9 +1,11 @@
 ﻿using AspNetCore.Identity.MongoDbCore.Models;
 using MineSweeper.Domain.Entities.Base;
+using MongoDbGenericRepository.Attributes;
 using System;
 
 namespace MineSweeper.Domain.Entities
 {
+    [CollectionName("User")]
     public class User : MongoIdentityUser, IEntity
     {
         public User()
@@ -27,7 +29,7 @@ namespace MineSweeper.Domain.Entities
         public bool IsDeleted { get; set; }
     }
 
-
+    [CollectionName("Role")]
     public class Role : MongoIdentityRole
     {
     }
