@@ -50,7 +50,7 @@ namespace MineSweeper.Application.Services
             if (game == null)
                 throw new ArgumentException("Informed game doesn't exists!");
 
-            return new GameDetailViewModel(game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString());
+            return new GameDetailViewModel(game.Id, game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString());
         }
 
         public async Task<List<GameDetailViewModel>> GetGamesByLoggedUser()
@@ -59,7 +59,7 @@ namespace MineSweeper.Application.Services
             IEnumerable<Game> games = await _repository.GetByUserId(userId);
 
             return games.Select(
-                            game => new GameDetailViewModel(game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString()))
+                            game => new GameDetailViewModel(game.Id, game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString()))
                         .ToList();
         }
 
