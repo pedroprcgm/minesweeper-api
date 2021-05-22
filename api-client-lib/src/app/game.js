@@ -7,16 +7,21 @@ const game = {};
  * @param {number} rows
  * @param {number} cols
  * @param {number} mines
+ * @param {string} token
  * @returns {promise} Game id
  */
-game.create = (name, rows, cols, mines) => {
+game.create = (name, rows, cols, mines, token) => {
 	return httpClient
-		.post("Games", {
-			name: name,
-			rows: rows * 1,
-			cols: cols * 1,
-			mines: mines * 1,
-		})
+		.post(
+			"Games",
+			{
+				name: name,
+				rows: rows * 1,
+				cols: cols * 1,
+				mines: mines * 1,
+			},
+			token
+		)
 		.then((response) => {
 			return response.data;
 		})
@@ -28,11 +33,12 @@ game.create = (name, rows, cols, mines) => {
 /**
  * Get game by id
  * @param {string} gameId
+ * @param {string} token
  * @returns {promise} Game details
  */
-game.getById = (gameId) => {
+game.getById = (gameId, token) => {
 	return httpClient
-		.get(`Games/${gameId}`)
+		.get(`Games/${gameId}`, token)
 		.then((response) => {
 			return response.data;
 		})
@@ -44,11 +50,12 @@ game.getById = (gameId) => {
 /**
  * Pause a game
  * @param {string} gameId
+ * @param {string} token
  * @returns {promise} Bool indicating success
  */
-game.pause = (gameId) => {
+game.pause = (gameId, token) => {
 	return httpClient
-		.put(`Games/${gameId}/pause`)
+		.put(`Games/${gameId}/pause`, {}, token)
 		.then((response) => {
 			return response.data;
 		})
@@ -60,11 +67,12 @@ game.pause = (gameId) => {
 /**
  * Resume a game
  * @param {string} gameId
+ * @param {string} token
  * @returns {promise} Bool indicating success
  */
-game.resume = (gameId) => {
+game.resume = (gameId, token) => {
 	return httpClient
-		.put(`Games/${gameId}/resume`)
+		.put(`Games/${gameId}/resume`, {}, token)
 		.then((response) => {
 			return response.data;
 		})
@@ -78,13 +86,13 @@ game.resume = (gameId) => {
  * @param {string} gameId
  * @param {number} row
  * @param {number} col
+ * @param {string} token
  * @returns {Promise} Result of visiting a cell
  */
-game.visitCell = (gameId, row, col) => {
+game.visitCell = (gameId, row, col, token) => {
 	return httpClient
-		.put(`Games/${gameId}/rows/${row}/cols/${col}/visit-cell`, {})
+		.put(`Games/${gameId}/rows/${row}/cols/${col}/visit-cell`, {}, token)
 		.then((response) => {
-			s;
 			return response.data;
 		})
 		.catch((err) => {
@@ -97,13 +105,18 @@ game.visitCell = (gameId, row, col) => {
  * @param {string} gameId
  * @param {number} row
  * @param {number} col
+ * @param {string} token
  * @returns {Promise} Result of flag a cell
  */
-game.flagCell = (gameId, row, col, flag) => {
+game.flagCell = (gameId, row, col, flag, token) => {
 	return httpClient
-		.put(`Games/${gameId}/rows/${row}/cols/${col}/flag`, {
-			flag: flag * 1,
-		})
+		.put(
+			`Games/${gameId}/rows/${row}/cols/${col}/flag`,
+			{
+				flag: flag * 1,
+			},
+			token
+		)
 		.then((response) => {
 			return response.data;
 		})
@@ -114,10 +127,12 @@ game.flagCell = (gameId, row, col, flag) => {
 };
 
 let handleError = (err) => {
+	console.log(err);
 	let error;
-	if (err && err.response && err.response.data)
-		error = err.response.data.title;
-	else error = "Unexpected error";
+	if (err && err.response) {
+		if (err.response.status == 401) error = "Invalid token!";
+		else error = err.response.data.title;
+	} else error = "Unexpected error";
 
 	throw new Error(error);
 };
