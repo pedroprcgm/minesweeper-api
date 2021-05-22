@@ -7,8 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.Services;
+using MineSweeper.CrossCutting.Auth.Facades;
 using MineSweeper.Domain.Entities;
 using MineSweeper.Domain.Interfaces.Context;
+using MineSweeper.Domain.Interfaces.Facades;
 using MineSweeper.Domain.Interfaces.Repositories;
 using MineSweeper.Infra.Context;
 using MineSweeper.Infra.Repositories;
@@ -109,6 +111,9 @@ namespace MineSweeper.API
             // Services
             services.AddScoped<IGameAppService, GameAppService>();
             services.AddScoped<IUserAppService, UserAppService>();
+
+            // Facades
+            services.AddScoped<IAuthFacade, AuthFacade>();
         }
     }
 }

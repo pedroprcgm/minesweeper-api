@@ -3,6 +3,7 @@ using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
 using MineSweeper.Domain.Entities;
 using MineSweeper.Domain.Interfaces.Context;
+using MineSweeper.Domain.Interfaces.Facades;
 using MineSweeper.Domain.Interfaces.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -13,16 +14,19 @@ namespace MineSweeper.Application.Services
     {
         private readonly IUserRepository _repository;
         private readonly IUnitOfWork _uow;
+        private readonly IAuthFacade _facadeAuth;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
 
         public UserAppService(IUserRepository repository,
+                              IAuthFacade facadeAuth,
                               UserManager<User> userManager,
                               SignInManager<User> signInManager,
                               IUnitOfWork uow)
         {
             _uow = uow;
+            _facadeAuth = facadeAuth;
             _userManager = userManager;
             _signInManager = signInManager;
             _repository = repository;
@@ -40,14 +44,16 @@ namespace MineSweeper.Application.Services
             return true;
         }
 
-        public async Task<string> Login(UserViewModel user)
+        public async Task<string> Login(UserViewModel userLogin)
         {
-            var loginResult = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
+            var loginResult = await _signInManager.PasswordSignInAsync(userLogin.Email, userLogin.Password, false, false);
 
             if (!loginResult.Succeeded)
                 throw new ArgumentException("Invalid data. Check email and password!");
 
-            return string.Empty;
+            User user = await _repository.GetByEmail(userLogin.Email);
+
+            return _facadeAuth.GenerateToken(user.Id, user.Email);
         }
     }
 }

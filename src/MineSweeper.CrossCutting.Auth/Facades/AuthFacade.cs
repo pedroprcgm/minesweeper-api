@@ -19,7 +19,7 @@ namespace MineSweeper.CrossCutting.Auth.Facades
             _configuration = configuration;
         }
 
-        public async Task<string> GenerateToken(Guid userId, string userName)
+        public string GenerateToken(Guid userId, string userName)
         {
             try
             {

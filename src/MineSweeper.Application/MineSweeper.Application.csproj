@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MineSweeper.CrossCutting.Auth\MineSweeper.CrossCutting.Auth.csproj" />
     <ProjectReference Include="..\MineSweeper.Domain\MineSweeper.Domain.csproj" />
     <ProjectReference Include="..\MineSweeper.Infra.Data\MineSweeper.Infra.Data.csproj" />
-    <ProjectReference Include="..\MineSweeper.Infra\MineSweeper.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>
