@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace MineSweeper.Services.Host.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class GamesController : ControllerBase
     {

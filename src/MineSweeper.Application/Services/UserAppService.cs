@@ -18,7 +18,6 @@ namespace MineSweeper.Application.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-
         public UserAppService(IUserRepository repository,
                               IAuthFacade facadeAuth,
                               UserManager<User> userManager,
@@ -39,7 +38,8 @@ namespace MineSweeper.Application.Services
             IdentityResult createResult = await _userManager.CreateAsync(newUser, user.Password);
 
             if (!createResult.Succeeded)
-                throw new ArgumentException("Occurred a problem to create user. Check email and password!");
+                throw new ArgumentException("Occurred a problem to create user. Check email and password! " +
+                    "The password must be at least 8 chars length, have a special character and a number!");
 
             return true;
         }

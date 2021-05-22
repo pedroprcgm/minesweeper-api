@@ -1,5 +1,6 @@
 ﻿using MineSweeper.Application.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MineSweeper.Application.Interfaces
@@ -17,5 +18,7 @@ namespace MineSweeper.Application.Interfaces
         Task<bool> PauseGame(Guid id);
 
         Task<bool> ResumeGame(Guid id);
+
+        Task<List<GameDetailViewModel>> GetGamesByLoggedUser();
     }
 }

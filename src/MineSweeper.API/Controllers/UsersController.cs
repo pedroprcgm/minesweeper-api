@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -14,12 +16,16 @@ namespace MineSweeper.Services.Host.Controllers
     {
         private readonly ILogger<UsersController> _logger;
         private readonly IUserAppService _service;
+        private readonly IGameAppService _serviceGame;
 
         public UsersController(ILogger<UsersController> logger,
-                               IUserAppService service)
+                               IUserAppService service,
+                               IGameAppService serviceGame
+                               )
         {
             _logger = logger;
             _service = service;
+            _serviceGame = serviceGame;
         }
 
         /// <summary>
@@ -72,5 +78,29 @@ namespace MineSweeper.Services.Host.Controllers
             }
         }
 
+        /// <summary>
+        /// Login user with email and password
+        /// </summary>
+        /// <returns>A list of games created by logged user</returns>
+        [HttpGet("logged/games")]
+        [Authorize]
+        [ProducesResponseType(typeof(List<GameDetailViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetGamesByLoggedUser()
+        {
+            try
+            {
+                List<GameDetailViewModel> games = await _serviceGame.GetGamesByLoggedUser();
+
+                return Ok(games);
+            }
+            catch (Exception e)
+            {
+                if (e is ArgumentException)
+                    return BadRequest();
+
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }

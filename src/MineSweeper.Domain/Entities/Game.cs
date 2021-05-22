@@ -14,12 +14,13 @@ namespace MineSweeper.Domain.Entities
             LastStartDateTime = DateTime.UtcNow;
         }
 
-        public Game(string name, int rows, int cols, int mines) : this()
+        public Game(string name, int rows, int cols, int mines, Guid userId) : this()
         {
             Name = name;
             Rows = rows;
             Cols = cols;
             Mines = mines;
+            UserId = userId;
 
             BuildCells();
         }
@@ -39,6 +40,8 @@ namespace MineSweeper.Domain.Entities
         public long TotalTimePlayed { get; set; }
 
         public DateTime LastStartDateTime { get; set; }
+
+        public Guid UserId { get; set; }
 
         internal long CurrentSession
         {

@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MineSweeper.Domain.Interfaces.Facades;
 using MineSweeper.Domain.Settings;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +16,13 @@ namespace MineSweeper.CrossCutting.Auth.Facades
     public class AuthFacade : IAuthFacade
     {
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthFacade(IConfiguration configuration)
+        public AuthFacade(IConfiguration configuration,
+                          IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string GenerateToken(Guid userId, string userName)
@@ -51,9 +57,15 @@ namespace MineSweeper.CrossCutting.Auth.Facades
 
         }
 
-        public Task<object> GetLoggedUser()
+        public async Task<Guid> GetLoggedUserId()
         {
-            throw new System.NotImplementedException();
+            IEnumerable<Claim> claims = ((ClaimsIdentity)_httpContextAccessor.HttpContext.User.Identity).Claims;
+            string userId = claims.FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                throw new UnauthorizedAccessException();
+
+            return Guid.Parse(userId);
         }
 
         private ClaimsIdentity GetClaimsForUser(Guid userId, string userName)

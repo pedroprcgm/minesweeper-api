@@ -3,6 +3,7 @@ using MineSweeper.Application.ViewModels;
 using MineSweeper.Domain.Entities;
 using MineSweeper.Domain.Enums;
 using MineSweeper.Domain.Interfaces.Context;
+using MineSweeper.Domain.Interfaces.Facades;
 using MineSweeper.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,18 +15,23 @@ namespace MineSweeper.Application.Services
     public class GameAppService : IGameAppService
     {
         private readonly IGameRepository _repository;
+        private readonly IAuthFacade _facadeAuth;
         private readonly IUnitOfWork _uow;
 
         public GameAppService(IGameRepository repository,
+                              IAuthFacade facadeAuth,
                               IUnitOfWork uow)
         {
             _uow = uow;
+            _facadeAuth = facadeAuth;
             _repository = repository;
         }
 
         public async Task<Guid> CreateGame(GameViewModel game)
         {
-            var _game = new Game(game.Name, game.Rows, game.Cols, game.Mines);
+            var userId = await _facadeAuth.GetLoggedUserId();
+
+            var _game = new Game(game.Name, game.Rows, game.Cols, game.Mines, userId);
 
             if (!_game.IsValid())
                 throw new ArgumentException();
@@ -45,6 +51,16 @@ namespace MineSweeper.Application.Services
                 throw new ArgumentException("Informed game doesn't exists!");
 
             return new GameDetailViewModel(game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString());
+        }
+
+        public async Task<List<GameDetailViewModel>> GetGamesByLoggedUser()
+        {
+            Guid userId = await _facadeAuth.GetLoggedUserId();
+            IEnumerable<Game> games = await _repository.GetByUserId(userId);
+
+            return games.Select(
+                            game => new GameDetailViewModel(game.Name, game.Rows, game.Cols, game.Mines, game.GetCurrentTotalTimePlayed(), game.Status.ToString()))
+                        .ToList();
         }
 
         public async Task<bool> PauseGame(Guid id)

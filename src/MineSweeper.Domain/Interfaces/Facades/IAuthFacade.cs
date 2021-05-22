@@ -7,6 +7,6 @@ namespace MineSweeper.Domain.Interfaces.Facades
     {
         string GenerateToken(Guid userId, string userName);
 
-        Task<object> GetLoggedUser();
+        Task<Guid> GetLoggedUserId();
     }
 }
