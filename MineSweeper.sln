@@ -7,9 +7,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.API", "src\Mine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.Domain", "src\MineSweeper.Domain\MineSweeper.Domain.csproj", "{5215F8F2-BDC5-47F0-A90D-85B602AC7554}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Infra", "src\MineSweeper.Infra\MineSweeper.Infra.csproj", "{165A7255-EB64-4B2A-BA4F-5D4A50EB22F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.Infra.Data", "src\MineSweeper.Infra.Data\MineSweeper.Infra.Data.csproj", "{165A7255-EB64-4B2A-BA4F-5D4A50EB22F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Application", "src\MineSweeper.Application\MineSweeper.Application.csproj", "{E3997CC3-8A9E-4822-B053-9F2318A03C2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.Application", "src\MineSweeper.Application\MineSweeper.Application.csproj", "{E3997CC3-8A9E-4822-B053-9F2318A03C2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MineSweeper.CrossCutting.Auth", "src\MineSweeper.CrossCutting.Auth\MineSweeper.CrossCutting.Auth.csproj", "{924C40E1-605B-40DE-8973-9FD88446864C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - API", "01 - API", "{73B3D225-2105-4B6D-B1B0-F65D075502AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - Application", "02 - Application", "{81DFFBB1-BECD-4615-A0CE-1A165EF3002A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Domain", "03 - Domain", "{CD0F128F-EB28-4C0E-A4B0-5931FFE7C6E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Infra", "04 - Infra", "{55B51831-4DBF-419D-BF2B-5E4249F7980C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.1 - Data", "04.1 - Data", "{029922E5-6931-4F7F-879B-BC0A0AD55C35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.2 - CrossCutting", "04.2 - CrossCutting", "{8DD3890B-C443-4FCA-991B-01789FB1521F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +47,22 @@ Global
 		{E3997CC3-8A9E-4822-B053-9F2318A03C2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3997CC3-8A9E-4822-B053-9F2318A03C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3997CC3-8A9E-4822-B053-9F2318A03C2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{924C40E1-605B-40DE-8973-9FD88446864C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{924C40E1-605B-40DE-8973-9FD88446864C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{924C40E1-605B-40DE-8973-9FD88446864C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{924C40E1-605B-40DE-8973-9FD88446864C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B55AD5E-10FE-4FE7-8E68-13134870A74B} = {73B3D225-2105-4B6D-B1B0-F65D075502AC}
+		{5215F8F2-BDC5-47F0-A90D-85B602AC7554} = {CD0F128F-EB28-4C0E-A4B0-5931FFE7C6E6}
+		{165A7255-EB64-4B2A-BA4F-5D4A50EB22F0} = {029922E5-6931-4F7F-879B-BC0A0AD55C35}
+		{E3997CC3-8A9E-4822-B053-9F2318A03C2F} = {81DFFBB1-BECD-4615-A0CE-1A165EF3002A}
+		{924C40E1-605B-40DE-8973-9FD88446864C} = {8DD3890B-C443-4FCA-991B-01789FB1521F}
+		{029922E5-6931-4F7F-879B-BC0A0AD55C35} = {55B51831-4DBF-419D-BF2B-5E4249F7980C}
+		{8DD3890B-C443-4FCA-991B-01789FB1521F} = {55B51831-4DBF-419D-BF2B-5E4249F7980C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FDA69A5-36EC-4AC5-B78A-BA5453263CB0}

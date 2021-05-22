@@ -39,5 +39,15 @@ namespace MineSweeper.Application.Services
 
             return true;
         }
+
+        public async Task<string> Login(UserViewModel user)
+        {
+            var loginResult = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
+
+            if (!loginResult.Succeeded)
+                throw new ArgumentException("Invalid data. Check email and password!");
+
+            return string.Empty;
+        }
     }
 }

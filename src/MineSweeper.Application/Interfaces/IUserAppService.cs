@@ -7,5 +7,6 @@ namespace MineSweeper.Application.Interfaces
     {
         Task<bool> CreateUser(UserViewModel user);
 
+        Task<string> Login(UserViewModel user); 
     }
 }
