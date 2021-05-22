@@ -18,4 +18,4 @@ The following is a list of items (prioritized from most important to least impor
 - [x] Time tracking
 - [x] Ability to start a new game and preserve/resume the old ones
 - [x] Ability to select the game parameters: number of rows, columns, and mines
-- [ ] Ability to support multiple users/accounts
+- [x] Ability to support multiple users/accounts
