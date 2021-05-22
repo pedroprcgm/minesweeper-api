@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MineSweeper.Application.Interfaces;
 using MineSweeper.Application.Services;
+using MineSweeper.Domain.Entities;
 using MineSweeper.Domain.Interfaces.Context;
 using MineSweeper.Domain.Interfaces.Repositories;
 using MineSweeper.Infra.Context;
@@ -27,6 +29,16 @@ namespace MineSweeper.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            DatabaseConnectionSettings databaseSettings = Configuration.GetSection(nameof(DatabaseConnectionSettings)).Get<DatabaseConnectionSettings>();
+
+            services.AddIdentity<User, Role>()
+                .AddMongoDbStores<User, Role, Guid>
+                (
+                    databaseSettings.ConnectionString,
+                    databaseSettings.Database
+                )
+                .AddDefaultTokenProviders();
+
             services.AddControllers();
 
             services.AddSwaggerGen(s =>
@@ -92,9 +104,11 @@ namespace MineSweeper.API
 
             // Repositories
             services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             // Services
             services.AddScoped<IGameAppService, GameAppService>();
+            services.AddScoped<IUserAppService, UserAppService>();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MineSweeper.Infra.Repositories.Base
 {
-    public class Repository<T> : IRepository<T> where T : Entity
+    public class Repository<T> : IRepository<T> where T : IEntity
     {
         protected readonly IMineSweeperContext _context;
         protected readonly IMongoCollection<T> DbSet;
