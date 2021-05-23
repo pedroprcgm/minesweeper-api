@@ -79,7 +79,7 @@ namespace MineSweeper.Services.Host.Controllers
         }
 
         /// <summary>
-        /// Login user with email and password
+        /// Get games created by a logged user
         /// </summary>
         /// <returns>A list of games created by logged user</returns>
         [HttpGet("logged/games")]

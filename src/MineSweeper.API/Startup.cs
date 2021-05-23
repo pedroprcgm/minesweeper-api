@@ -29,17 +29,29 @@ namespace MineSweeper.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup(IHostEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                  .SetBasePath(env.ContentRootPath)
+                  .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                  .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+            builder.AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
             DatabaseConnectionSettings databaseSettings = Configuration.GetSection(nameof(DatabaseConnectionSettings)).Get<DatabaseConnectionSettings>();
             TokenConfigurationsSettings tokenConfigurationsSettings = Configuration.GetSection(nameof(TokenConfigurationsSettings)).Get<TokenConfigurationsSettings>();
+
+            if (databaseSettings == null)
+                throw new Exception("Missing DatabaseConnectionSettings");
+
+            services.AddControllers();
 
             services.AddIdentity<User, Role>()
                 .AddMongoDbStores<User, Role, Guid>
@@ -48,8 +60,6 @@ namespace MineSweeper.API
                     databaseSettings.Database
                 )
                 .AddDefaultTokenProviders();
-
-            services.AddControllers();
 
             services.AddAuthentication(x =>
             {
@@ -127,16 +137,11 @@ namespace MineSweeper.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.UseSwagger(c =>
